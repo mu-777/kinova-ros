@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<root xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz"
+    xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model"
+	xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+	xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body"
+    xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom"
+    xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint"
+	xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+	xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering"
+    xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable"
+    xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
+	xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find kinova_description)/urdf/parts/common.urdf.xacro" />
+
+    <!-- Base link with continuous joint at the output -->
+    <!-- Suggested parameters: jaco2 link_base link_1 joint_1 --> 
+
+    <xacro:macro name="jaco2_base" params="prefix name child_link joint">
+        <!-- Base link model -->
+        <link name="${prefix}_${name}">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="1.000"/>
+                <inertia ixx="0.100"
+                         ixy="0.100"
+                         ixz="0.000"
+                         iyy="0.100"
+                         iyz="0.000"
+                         izz="0.100"/>
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh
+                        filename="package://kinova_description/meshes/jaco2_link_base.dae"/>
+                </geometry>
+                <material name="carbon_fiber">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh
+                        filename="package://kinova_description/meshes/jaco2_link_base.dae"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <!-- First rotation (yaw) -->
+        <joint name="${prefix}_${joint}" type="continuous">
+            <parent link="${prefix}_${name}"/>
+            <child link="${prefix}_${child_link}"/>
+            <axis xyz="0 0 -1"/>
+            <limit effort="30" velocity="0.35"/>
+            <origin xyz="0 0 0.1535" rpy="${J_PI} 0 ${J_PI}"/>
+         </joint>
+         <transmission name="${prefix}_${joint}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${prefix}_${joint}">
+                <hardwareInterface>EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${prefix}_${joint}_motor">
+                <mechanicalReduction>1.0</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+    </xacro:macro>
+
+</root>
+
