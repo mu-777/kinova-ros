@@ -117,6 +117,17 @@
     </transmission>
     </xacro:macro>
 
+   <xacro:macro name="jaco_finger_tip_joint" params="joint_name type parent child joint_axis_xyz joint_origin_xyz joint_origin_rpy lower_limit upper_limit mimic_joint mimic_multiplier mimic_offset">
+    <joint name="${joint_name}" type="${type}">
+        <parent link="${parent}"/>
+        <child link="${child}"/>
+        <axis xyz="${joint_axis_xyz}"/>
+        <origin xyz="${joint_origin_xyz}" rpy="${joint_origin_rpy}"/>
+        <limit lower="${lower_limit}" upper="${upper_limit}" effort="30" velocity="5"/>
+        <mimic joint="${mimic_joint}" multiplier="${mimic_multiplier}" offset="${mimic_offset}"/>
+     </joint>
+    </xacro:macro>
+
     <xacro:macro name="jaco_struct" params="parent basename">
         <xacro:jaco_link link_name="${link_base}" link_mass="${link_base_mass}" link_cog="${link_base_cog}" link_ixx="${link_base_ixx}" link_ixy="${link_base_ixy}" link_ixz="${link_base_ixz}" link_iyy="${link_base_iyy}" link_iyz="${link_base_iyz}" link_izz="${link_base_izz}"/>
         <!-- Separate joint definition for base to avoid creating a transmission
