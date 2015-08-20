@@ -123,33 +123,199 @@
     <property name="end_effector_offset" value="0.160"/>
 
     <property name="link_base_link_data">
-        <xacro:default_link_data link_name="${link_base}"/>
+        <!--<xacro:default_link_data link_name="${link_base}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_base}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
     </property>
     <property name="link_1_link_data">
-        <xacro:default_link_data link_name="${link_1}"/>
+        <!--<xacro:default_link_data link_name="${link_1}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_1}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
     </property>
     <property name="link_2_link_data">
-        <xacro:default_link_data link_name="${link_2}"/>
+        <!--<xacro:default_link_data link_name="${link_2}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_2}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
     </property>
     <property name="link_3_link_data">
-        <xacro:default_link_data link_name="${link_3}"/>
+        <!--<xacro:default_link_data link_name="${link_3}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_3}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
     </property>
     <property name="link_4_link_data">
-        <xacro:default_link_data link_name="${link_4}"/>
+        <!--<xacro:default_link_data link_name="${link_4}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_4}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
     </property>
     <property name="link_5_link_data">
-        <xacro:default_link_data link_name="${link_5}"/>
+        <!--<xacro:default_link_data link_name="${link_5}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_5}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
     </property>
     <property name="link_hand_link_data">
-        <xacro:default_link_data link_name="${link_hand}"/>
+        <!--<xacro:default_link_data link_name="${link_hand}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_hand}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
+    </property>
+    <property name="link_finger_1_link_data">
+        <!--<xacro:default_link_data link_name="${link_hand}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_finger_1}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
+    </property>
+    <property name="link_finger_tip_1_link_data">
+        <!--<xacro:default_link_data link_name="${link_hand}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_finger_tip_1}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
+    </property>
+    <property name="link_finger_2_link_data">
+        <!--<xacro:default_link_data link_name="${link_hand}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_finger_2}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
+    </property>
+    <property name="link_finger_tip_2_link_data">
+        <!--<xacro:default_link_data link_name="${link_hand}"/>-->
+        <link_data>
+            <collision>
+                <geometry>
+                    <mesh filename="package://jaco_model/meshes/${link_finger_tip_2}.dae"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.001"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                         izz="1.0"/>
+            </inertial>
+        </link_data>
     </property>
 
-    <xacro:macro name="mico_arm" params="parent">
+    <xacro:macro name="gazebo_mico_arm" params="parent">
 
         <xacro:jaco_struct parent="${parent}" basename="mico"/>
 
         <xacro:jaco_link link_name="${link_finger_1}">
-            <xacro:default_link_data link_name="${link_finger_1}"/>
+            <xacro:insert_block name="link_finger_1_link_data"/>
         </xacro:jaco_link>
         <xacro:jaco_finger_joint joint_name="${joint_finger_1}" type="revolute" parent="${link_hand}"
                                  child="${link_finger_1}" joint_axis_xyz="${joint_finger_1_axis_xyz}"
@@ -158,7 +324,7 @@
                                  lower_limit="${joint_finger_1_lower_limit}"
                                  upper_limit="${joint_finger_1_upper_limit}"/>
         <xacro:jaco_link link_name="${link_finger_tip_1}">
-            <xacro:default_link_data link_name="${link_finger_tip_1}"/>
+            <xacro:insert_block name="link_finger_tip_1_link_data"/>
         </xacro:jaco_link>
         <xacro:jaco_finger_tip_joint joint_name="${joint_finger_tip_1}" type="revolute" parent="${link_finger_1}"
                                      child="${link_finger_tip_1}" joint_axis_xyz="${joint_finger_tip_1_axis_xyz}"
@@ -170,7 +336,7 @@
                                      mimic_offset="${joint_finger_tip_1_mimc_offset}"/>
 
         <xacro:jaco_link link_name="${link_finger_2}">
-            <xacro:default_link_data link_name="${link_finger_2}"/>
+            <xacro:insert_block name="link_finger_2_link_data"/>
         </xacro:jaco_link>
         <xacro:jaco_finger_joint joint_name="${joint_finger_2}" type="revolute" parent="${link_hand}"
                                  child="${link_finger_2}" joint_axis_xyz="${joint_finger_2_axis_xyz}"
@@ -179,7 +345,7 @@
                                  lower_limit="${joint_finger_2_lower_limit}"
                                  upper_limit="${joint_finger_2_upper_limit}"/>
         <xacro:jaco_link link_name="${link_finger_tip_2}">
-            <xacro:default_link_data link_name="${link_finger_tip_2}"/>
+            <xacro:insert_block name="link_finger_tip_2_link_data"/>
         </xacro:jaco_link>
         <xacro:jaco_finger_tip_joint joint_name="${joint_finger_tip_2}" type="revolute" parent="${link_finger_2}"
                                      child="${link_finger_tip_2}" joint_axis_xyz="${joint_finger_tip_2_axis_xyz}"
