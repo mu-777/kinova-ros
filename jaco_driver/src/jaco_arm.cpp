@@ -333,11 +333,11 @@ void JacoArm::publishJointAngles(void)
 
     double j6o = jaco_comm_.robotType() == 2 ? 270.0 : 260.0;
     joint_state.position[0] = (180- jaco_angles.joint1) * (PI / 180);
-    joint_state.position[1] = (jaco_angles.joint2 - j6o) * (PI / 180);
+    joint_state.position[1] = (jaco_angles.joint2 -270) * (PI / 180);
     joint_state.position[2] = (90-jaco_angles.joint3) * (PI / 180);
     joint_state.position[3] = (180-jaco_angles.joint4) * (PI / 180);
     joint_state.position[4] = (180-jaco_angles.joint5) * (PI / 180);
-    joint_state.position[5] = (270-jaco_angles.joint6) * (PI / 180);
+    joint_state.position[5] = (j6o -jaco_angles.joint6) * (PI / 180);
     joint_state.position[6] = finger_conv_ratio_ * fingers.Finger1;
     joint_state.position[7] = finger_conv_ratio_ * fingers.Finger2;
     joint_state.position[8] = finger_conv_ratio_ * fingers.Finger3;
