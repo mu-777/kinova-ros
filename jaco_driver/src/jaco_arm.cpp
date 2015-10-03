@@ -135,25 +135,6 @@ bool JacoArm::homeArmServiceCallback(jaco_msgs::HomeArm::Request &req, jaco_msgs
 }
 
 
-void JacoArm::jointVelocityCallback(const jaco_msgs::JointVelocityConstPtr& joint_vel)
-{
-    if (!jaco_comm_.isStopped())
-    {
-        joint_velocities_.Actuator1 = joint_vel->joint1;
-        joint_velocities_.Actuator2 = joint_vel->joint2;
-        joint_velocities_.Actuator3 = joint_vel->joint3;
-        joint_velocities_.Actuator4 = joint_vel->joint4;
-        joint_velocities_.Actuator5 = joint_vel->joint5;
-        joint_velocities_.Actuator6 = joint_vel->joint6;
-        last_joint_vel_cmd_time_ = ros::Time().now();
-
-        if (joint_vel_timer_flag_ == false)
-        {
-            joint_vel_timer_.start();
-            joint_vel_timer_flag_ = true;
-        }
-    }
-}
 
 
 /*!
@@ -276,19 +257,42 @@ void JacoArm::cartesianVelocityTimer(const ros::TimerEvent&)
 }
 
 
+void JacoArm::jointVelocityCallback(const jaco_msgs::JointVelocityConstPtr& joint_vel)
+{
+    if (!jaco_comm_.isStopped())
+    {
+        joint_velocities_.Actuator1 = joint_vel->joint1;
+        joint_velocities_.Actuator2 = joint_vel->joint2;
+        joint_velocities_.Actuator3 = joint_vel->joint3;
+        joint_velocities_.Actuator4 = joint_vel->joint4;
+        joint_velocities_.Actuator5 = joint_vel->joint5;
+        joint_velocities_.Actuator6 = joint_vel->joint6;
+        last_joint_vel_cmd_time_ = ros::Time().now();
+
+        if (joint_vel_timer_flag_ == false)
+        {
+            joint_vel_timer_.start();
+            joint_vel_timer_flag_ = true;
+        }
+        ROS_INFO("Joint vel : %f, %f, %f, %f, %f, %f",
+                  joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
+                  joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
+    }
+}
+
 void JacoArm::jointVelocityTimer(const ros::TimerEvent&)
 {
     double elapsed_time_seconds = ros::Time().now().toSec() - last_joint_vel_cmd_time_.toSec();
 
     if (elapsed_time_seconds > joint_vel_timeout_seconds_)
     {
-        ROS_DEBUG("Joint vel timed out: %f", elapsed_time_seconds);
+        ROS_INFO("Joint vel timed out: %f", elapsed_time_seconds);
         joint_vel_timer_.stop();
         joint_vel_timer_flag_ = false;
     }
     else
     {
-        ROS_DEBUG("Joint vel timer (%f): %f, %f, %f, %f, %f, %f", elapsed_time_seconds,
+        ROS_INFO("Joint vel timer (%f): %f, %f, %f, %f, %f, %f", elapsed_time_seconds,
                   joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
                   joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
         jaco_comm_.setJointVelocities(joint_velocities_);
@@ -331,7 +335,8 @@ void JacoArm::publishJointAngles(void)
     // Transform from Kinova DH algorithm to physical angles in radians, then place into vector array
     joint_state.position.resize(9);
 
-    double j6o = jaco_comm_.robotType() == 2 ? 270.0 : 260.0;
+//    double j6o = jaco_comm_.robotType() == 2 ? 270.0 : 260.0;
+    double j6o = 270.0;
     joint_state.position[0] = (180- jaco_angles.joint1) * (PI / 180);
     joint_state.position[1] = (jaco_angles.joint2 -270) * (PI / 180);
     joint_state.position[2] = (90-jaco_angles.joint3) * (PI / 180);
