@@ -13,11 +13,12 @@ import sys
 
 
 def pose_client():
-    client = actionlib.SimpleActionClient('/jaco/arm_pose', jaco_msgs.msg.ArmPoseAction)
+    client = actionlib.SimpleActionClient('/mico_arm_driver/arm_pose/arm_pose', jaco_msgs.msg.ArmPoseAction)
 
     goal = jaco_msgs.msg.ArmPoseGoal()
 
-    goal.pose.header.frame_id = "/jaco_api_origin"
+    goal.pose.header.stamp = rospy.Time.now()
+    goal.pose.header.frame_id = "/mico_api_origin"
     pose = goal.pose.pose
 
     if len(sys.argv) < 8:  # default pose
