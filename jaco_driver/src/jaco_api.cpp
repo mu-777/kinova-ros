@@ -51,7 +51,7 @@ JacoAPI::JacoAPI(void)
 
     getCartesianForce = (int (*)(CartesianPosition &))checkApiInit(usbLib, "GetCartesianForce");
 
-    setCartesianForceMinMax = (int (*)(CartesianInfo, CartesianInfo))checkApiInit(usbLib, "SetCartesianForceMinMax");
+//    setCartesianForceMinMax = (int (*)(CartesianInfo, CartesianInfo))checkApiInit(usbLib, "SetCartesianForceMinMax");
 
     setCartesianInertiaDamping = (int (*)(CartesianInfo, CartesianInfo))checkApiInit(usbLib, "SetCartesianInertiaDamping");
 
