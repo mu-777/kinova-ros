@@ -19,9 +19,10 @@ public:
     MyJacoDriver(const ros::NodeHandle &nodeHandle) : node_handle_(nodeHandle) {
         int result = jacoAPI_.MyInitAPI();
         std::cout << "Initialization's result :" << result << std::endl;
+        KinovaDevice list[MAX_KINOVA_DEVICE];
+        int devicesCount = jacoAPI_.MyGetDevices(list, result);
+        isConnected = (devicesCount == 1);
         pointToSend_.Position.Type = ANGULAR_VELOCITY;
-        node_handle_.subscribe("in/joint_velocity", 1,
-                               &MyJacoDriver::jointVelCallback, this);
     };
 
     ~MyJacoDriver() {
@@ -53,6 +54,8 @@ public:
         jacoAPI_.MySendBasicTrajectory(pointToSend_);
     };
 
+    bool isConnected = false;
+
 private:
     JacoAPI jacoAPI_;
     TrajectoryPoint pointToSend_;
@@ -66,11 +69,12 @@ int main(int argc, char **argv) {
 
     MyJacoDriver driver(nh);
 
-    driver.moveHome();
-    usleep(5000);
-    driver.activate();
-
-    ros::spin();
+    if (driver.isConnected) {
+        driver.moveHome();
+        usleep(1000);
+        driver.activate();
+        ros::spin();
+    }
 
     return 0;
 }
