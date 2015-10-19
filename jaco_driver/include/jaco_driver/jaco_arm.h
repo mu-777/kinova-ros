@@ -36,37 +36,38 @@
 #include "jaco_driver/jaco_api.h"
 
 
-namespace jaco
-{
+namespace jaco {
 
 // Maximum number of joints on Jaco-like robots:
-static const int     JACO_JOINTS_COUNT = 9;
+static const int JACO_JOINTS_COUNT = 9;
 
-class JacoArm
-{
- public:
-    JacoArm(JacoComm& arm, const ros::NodeHandle &node_handle);
+class JacoArm {
+public:
+    JacoArm(JacoComm &arm, const ros::NodeHandle &node_handle);
     ~JacoArm();
 
-    void jointVelocityCallback(const jaco_msgs::JointVelocityConstPtr& joint_vel);
-    void cartesianVelocityCallback(const geometry_msgs::TwistStampedConstPtr& cartesian_vel);
+    void jointVelocityCallback(const jaco_msgs::JointVelocityConstPtr &joint_vel);
+    void cartesianVelocityCallback(const geometry_msgs::TwistStampedConstPtr &cartesian_vel);
 
     bool stopServiceCallback(jaco_msgs::Stop::Request &req, jaco_msgs::Stop::Response &res);
     bool startServiceCallback(jaco_msgs::Start::Request &req, jaco_msgs::Start::Response &res);
     bool homeArmServiceCallback(jaco_msgs::HomeArm::Request &req, jaco_msgs::HomeArm::Response &res);
-    
+
     bool setForceControlParamsCallback(jaco_msgs::SetForceControlParams::Request &req,
                                        jaco_msgs::SetForceControlParams::Response &res);
     bool startForceControlCallback(jaco_msgs::Start::Request &req,
                                    jaco_msgs::Start::Response &res);
     bool stopForceControlCallback(jaco_msgs::Stop::Request &req,
                                   jaco_msgs::Stop::Response &res);
+    void sendJointVelocity(void);
+    void sendCartesianVelocity(void);
+    void publishStatus(void);
 
- private:
-    void positionTimer(const ros::TimerEvent&);
-    void cartesianVelocityTimer(const ros::TimerEvent&);
-    void jointVelocityTimer(const ros::TimerEvent&);
-    void statusTimer(const ros::TimerEvent&);
+private:
+    void positionTimer(const ros::TimerEvent &);
+    void cartesianVelocityTimer(const ros::TimerEvent &);
+    void jointVelocityTimer(const ros::TimerEvent &);
+    void statusTimer(const ros::TimerEvent &);
 
     void publishJointAngles(void);
     void publishToolPosition(void);
@@ -117,10 +118,12 @@ class JacoArm
     AngularInfo joint_velocities_;
     CartesianInfo cartesian_velocities_;
 
-    ros::Time last_joint_vel_cmd_time_;
-    ros::Time last_cartesian_vel_cmd_time_;
+    double last_joint_vel_cmd_time_;
+    double last_cartesian_vel_cmd_time_sec;
 
-    std::vector< std::string > joint_names_;
+    std::vector<std::string> joint_names_;
+
+
 };
 
 }  // namespace jaco
