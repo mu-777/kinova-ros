@@ -22,6 +22,7 @@ public:
         KinovaDevice list[MAX_KINOVA_DEVICE];
         int devicesCount = jacoAPI_.MyGetDevices(list, result);
         isConnected = (devicesCount == 1);
+        pointToSend_.InitStruct();
         pointToSend_.Position.Type = ANGULAR_VELOCITY;
     };
 
@@ -34,13 +35,8 @@ public:
         jacoAPI_.MyMoveHome();
     };
 
-    void activate() {
-        node_handle_.subscribe("in/joint_velocity", 1,
-                               &MyJacoDriver::jointVelCallback, this);
-
-    };
-
     void jointVelCallback(const jaco_msgs::JointVelocityConstPtr &joint_vel) {
+        std::cout << "called!" << std::endl;
         pointToSend_.Position.Actuators.Actuator1 = joint_vel->joint1;
         pointToSend_.Position.Actuators.Actuator2 = joint_vel->joint2;
         pointToSend_.Position.Actuators.Actuator3 = joint_vel->joint3;
@@ -51,29 +47,46 @@ public:
                  pointToSend_.Position.Actuators.Actuator1, pointToSend_.Position.Actuators.Actuator2,
                  pointToSend_.Position.Actuators.Actuator3, pointToSend_.Position.Actuators.Actuator4,
                  pointToSend_.Position.Actuators.Actuator5, pointToSend_.Position.Actuators.Actuator6);
-        jacoAPI_.MySendBasicTrajectory(pointToSend_);
     };
 
-    bool isConnected = false;
+    void activate() {
+        subJointVelInput_ = node_handle_.subscribe("/jaco_arm_driver/in/joint_velocity", 10,
+                                                   &MyJacoDriver::jointVelCallback, this);
+    };
+
+    void run() {
+        std::cout << "RUN" << std::endl;
+        ROS_INFO("Joint vel : %f, %f, %f, %f, %f, %f",
+                 pointToSend_.Position.Actuators.Actuator1, pointToSend_.Position.Actuators.Actuator2,
+                 pointToSend_.Position.Actuators.Actuator3, pointToSend_.Position.Actuators.Actuator4,
+                 pointToSend_.Position.Actuators.Actuator5, pointToSend_.Position.Actuators.Actuator6);
+        jacoAPI_.MySendBasicTrajectory(pointToSend_);
+    }
+
+    bool isConnected;
 
 private:
     JacoAPI jacoAPI_;
     TrajectoryPoint pointToSend_;
     ros::NodeHandle node_handle_;
+    ros::Subscriber subJointVelInput_;
 };
 
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "jaco_arm_driver");
     ros::NodeHandle nh("~");
+    ros::Rate loop_rate(100);
 
     MyJacoDriver driver(nh);
-
     if (driver.isConnected) {
         driver.moveHome();
-        usleep(1000);
         driver.activate();
-        ros::spin();
+        while (ros::ok()) {
+            driver.run();
+            ros::spinOnce();
+            loop_rate.sleep();
+        }
     }
 
     return 0;
