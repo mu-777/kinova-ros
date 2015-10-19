@@ -283,20 +283,20 @@ void JacoArm::jointVelocityCallback(const jaco_msgs::JointVelocityConstPtr& join
 void JacoArm::jointVelocityTimer(const ros::TimerEvent&)
 {
     double elapsed_time_seconds = ros::Time().now().toSec() - last_joint_vel_cmd_time_.toSec();
-
-    if (elapsed_time_seconds > joint_vel_timeout_seconds_)
-    {
-        ROS_INFO("Joint vel timed out: %f", elapsed_time_seconds);
-        joint_vel_timer_.stop();
-        joint_vel_timer_flag_ = false;
-    }
-    else
-    {
+//
+//    if (elapsed_time_seconds > joint_vel_timeout_seconds_)
+//    {
+//        ROS_INFO("Joint vel timed out: %f", elapsed_time_seconds);
+//        joint_vel_timer_.stop();
+//        joint_vel_timer_flag_ = false;
+//    }
+//    else
+//    {
         ROS_INFO("Joint vel timer (%f): %f, %f, %f, %f, %f, %f", elapsed_time_seconds,
                   joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
                   joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
         jaco_comm_.setJointVelocities(joint_velocities_);
-    }
+//    }
 }
 
 
