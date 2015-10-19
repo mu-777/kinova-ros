@@ -35,8 +35,8 @@ class MICOCartesianPoseControl(object):
         self._action_trigger = False
         self._tf_broadcaster = tf2_ros.TransformBroadcaster()
         self._ref_tf_stamped = TransformStamped(header=Header(stamp=rospy.Time.now(),
-                                                              frame_id='ref_pose'),
-                                                child_frame_id='mico_api_origin',
+                                                              frame_id='mico_api_origin'),
+                                                child_frame_id='ref_pose',
                                                 transform=pose2transform(self._goal.pose.pose))
         rospy.Subscriber('/mico_ref_pose', Pose, self._ref_pose_callback)
         rospy.Service('/mico_action_trigger', Trigger, self._action_trigger_srv_handler)
@@ -47,6 +47,8 @@ class MICOCartesianPoseControl(object):
         self._ref_tf_stamped.transform = pose2transform(input_pose)
 
     def _action_trigger_srv_handler(self, req):
+        if self._action_trigger:
+            self._client.cancel_all_goals()
         self._action_trigger = True
         return TriggerResponse(success=True, message='OK')
 
@@ -70,13 +72,13 @@ class MICOCartesianPoseControl(object):
         # print('        the cartesian action timed-out')
         # return None
 
-    def _done_cb(self, msg):
-        print('done_cb', type(msg))
-        print(msg)
+    def _done_cb(self, msg1, msg2):
+        print('done_cb', type(msg1), type(msg2))
+        print(msg1)
+        print(msg2)
 
-    def _active_cb(self, msg):
-        print('active_cb', type(msg))
-        print(msg)
+    def _active_cb(self):
+        print('active_cb')
 
     def _feedback_cb(self, msg):
         print('feedback_cb', type(msg))
