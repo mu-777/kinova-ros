@@ -82,44 +82,44 @@ target_link_libraries(jaco_tf_updater ${catkin_LIBRARIES})
 ## Install ##
 #############
 
-install(PROGRAMS
-  test/angle_action_client.py
-  test/finger_action_client.py
-  test/pose_action_client.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-# Copy over Kinova .so binary blobs to /usr/lib
-install(FILES
-  lib/${CMAKE_LIBRARY_ARCHITECTURE}/Kinova.API.CommLayerUbuntu.so
-  lib/${CMAKE_LIBRARY_ARCHITECTURE}/Kinova.API.USBCommandLayerUbuntu.so
-  DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-)
-
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
-)
-
-
-## Mark executables and/or libraries for installation
-install(TARGETS jaco_arm_driver jaco_tf_updater
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-## Mark cpp header files for installation
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
-)
-
-## Mark other files for installation (e.g. launch and bag files, etc.)
-install(FILES
-  launch/jaco_arm.launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+#install(PROGRAMS
+#  test/angle_action_client.py
+#  test/finger_action_client.py
+#  test/pose_action_client.py
+#  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#)
+#
+## Copy over Kinova .so binary blobs to /usr/lib
+#install(FILES
+#  lib/${CMAKE_LIBRARY_ARCHITECTURE}/Kinova.API.CommLayerUbuntu.so
+#  lib/${CMAKE_LIBRARY_ARCHITECTURE}/Kinova.API.USBCommandLayerUbuntu.so
+#  DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#)
+#
+#install(DIRECTORY include/${PROJECT_NAME}/
+#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#  FILES_MATCHING PATTERN "*.h"
+#)
+#
+#
+### Mark executables and/or libraries for installation
+#install(TARGETS jaco_arm_driver jaco_tf_updater
+#  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#)
+#
+### Mark cpp header files for installation
+#install(DIRECTORY include/${PROJECT_NAME}/
+#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#  FILES_MATCHING PATTERN "*.h"
+#)
+#
+### Mark other files for installation (e.g. launch and bag files, etc.)
+#install(FILES
+#  launch/jaco_arm.launch
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#)
 
 #############
 ## Testing ##

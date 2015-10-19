@@ -13,17 +13,14 @@
 #include "jaco_driver/jaco_fingers_action.h"
 
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     ros::init(argc, argv, "jaco_arm_driver");
     ros::NodeHandle nh("~");
     boost::recursive_mutex api_mutex;
 
     bool is_first_init = true;
-    while (ros::ok())
-    {
-        try
-        {
+    while (ros::ok()) {
+        try {
             jaco::JacoComm comm(nh, api_mutex, is_first_init);
             jaco::JacoArm jaco(comm, nh);
             jaco::JacoPoseActionServer pose_server(comm, nh);
@@ -32,8 +29,7 @@ int main(int argc, char **argv)
 
             ros::spin();
         }
-        catch(const std::exception& e)
-        {
+        catch (const std::exception &e) {
             ROS_ERROR_STREAM(e.what());
             jaco::JacoAPI api;
             boost::recursive_mutex::scoped_lock lock(api_mutex);
