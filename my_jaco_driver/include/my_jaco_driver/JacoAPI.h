@@ -22,6 +22,7 @@ public:
                                                                                              "GetDevices");
         MySetActiveDevice = (int (*)(KinovaDevice devices)) dlsym(commandLayer_handle, "SetActiveDevice");
         MySendBasicTrajectory = (int (*)(TrajectoryPoint)) dlsym(commandLayer_handle, "SendBasicTrajectory");
+        MySendAdvanceTrajectory = (int (*)(TrajectoryPoint)) dlsym(commandLayer_handle, "SendAdvanceTrajectory");
         MyGetAngularCommand = (int (*)(AngularPosition &)) dlsym(commandLayer_handle, "GetAngularCommand");
     }
 
@@ -32,6 +33,7 @@ public:
     int (*MyInitAPI)();
     int (*MyCloseAPI)();
     int (*MySendBasicTrajectory)(TrajectoryPoint command);
+    int (*MySendAdvanceTrajectory)(TrajectoryPoint command);
     int (*MyGetDevices)(KinovaDevice devices[MAX_KINOVA_DEVICE], int &result);
     int (*MySetActiveDevice)(KinovaDevice device);
     int (*MyMoveHome)();

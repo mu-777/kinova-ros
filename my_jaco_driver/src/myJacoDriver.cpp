@@ -24,6 +24,7 @@ public:
         isConnected = (devicesCount == 1);
         pointToSend_.InitStruct();
         pointToSend_.Position.Type = ANGULAR_VELOCITY;
+        joint_velocities_.InitStruct();
     };
 
     ~MyJacoDriver() {
@@ -60,7 +61,8 @@ public:
                  pointToSend_.Position.Actuators.Actuator1, pointToSend_.Position.Actuators.Actuator2,
                  pointToSend_.Position.Actuators.Actuator3, pointToSend_.Position.Actuators.Actuator4,
                  pointToSend_.Position.Actuators.Actuator5, pointToSend_.Position.Actuators.Actuator6);
-        jacoAPI_.MySendBasicTrajectory(pointToSend_);
+//        jacoAPI_.MySendBasicTrajectory(pointToSend_);
+        jacoAPI_.MySendAdvanceTrajectory(pointToSend_);
     }
 
     bool isConnected;
@@ -68,6 +70,7 @@ public:
 private:
     JacoAPI jacoAPI_;
     TrajectoryPoint pointToSend_;
+    AngularInfo joint_velocities_;
     ros::NodeHandle node_handle_;
     ros::Subscriber subJointVelInput_;
 };

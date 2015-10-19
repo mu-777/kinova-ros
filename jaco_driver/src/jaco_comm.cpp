@@ -85,7 +85,7 @@ JacoComm::JacoComm(const ros::NodeHandle &node_handle,
         throw JacoCommException("Could not get devices list", result);
     }
 
-    std::cout << devices_list.size()  << std::endl;
+    std::cout << devices_list.size() << std::endl;
 
     bool found_arm = false;
     for (int device_i = 0; device_i < devices_list.size(); device_i++) {
@@ -109,13 +109,13 @@ JacoComm::JacoComm(const ros::NodeHandle &node_handle,
             QuickStatus quick_status;
             getQuickStatus(quick_status);
 
-            robot_type_ = quick_status.RobotType;
-            if ((robot_type_ != 0) && (robot_type_ != 1) && (robot_type_ != 3)) {
-                ROS_ERROR("Could not get the type of the arm from the quick status, expected "
-                                  "either type 0 (JACO), or type 1 (MICO), got %d", quick_status.RobotType);
-                throw JacoCommException("Could not get the type of the arm", quick_status.RobotType);
-            }
-
+//            robot_type_ = quick_status.RobotType;
+//            if ((robot_type_ != 0) && (robot_type_ != 1) && (robot_type_ != 3)) {
+//                ROS_ERROR("Could not get the type of the arm from the quick status, expected "
+//                                  "either type 0 (JACO), or type 1 (MICO), got %d", quick_status.RobotType);
+//                throw JacoCommException("Could not get the type of the arm", quick_status.RobotType);
+//            }
+            robot_type_ = 1;
             switch (robot_type_) {
                 case 0:
                 case 3:
