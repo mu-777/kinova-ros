@@ -60,7 +60,7 @@
 // ***** E N D  O F  E R R O R   C O D E S ******
 
 //Version of the API 5.01.01
-#define COMMAND_LAYER_VERSION 52122
+#define COMMAND_LAYER_VERSION 50101
 
 // ***** API'S FUNCTIONAL CORE *****
 
