@@ -65,15 +65,15 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
     finger_position_publisher_ = node_handle_.advertise<jaco_msgs::FingerPosition>("out/finger_position", 2);
 
     /* Set up Subscribers*/
-    joint_velocity_subscriber_ = node_handle_.subscribe("in/joint_velocity", 1,
+    joint_velocity_subscriber_ = node_handle_.subscribe("in/joint_velocity", 10,
                                                         &JacoArm::jointVelocityCallback, this);
-    cartesian_velocity_subscriber_ = node_handle_.subscribe("in/cartesian_velocity", 1,
+    cartesian_velocity_subscriber_ = node_handle_.subscribe("in/cartesian_velocity", 10,
                                                             &JacoArm::cartesianVelocityCallback, this);
 
     node_handle_.param<double>("status_interval_seconds", status_interval_seconds_, 0.1);
     node_handle_.param<double>("joint_angular_vel_timeout", joint_vel_timeout_seconds_, 0.25);
     node_handle_.param<double>("cartesian_vel_timeout", cartesian_vel_timeout_seconds_, 0.25);
-    node_handle_.param<double>("joint_vel_interval_seconds", joint_vel_interval_seconds_, 0.01);
+    node_handle_.param<double>("joint_vel_interval_seconds", joint_vel_interval_seconds_, 0.0001);
     node_handle_.param<double>("cartesian_vel_interval_seconds", cartesian_vel_interval_seconds_, 0.01);
 
     node_handle_.param<std::string>("tf_prefix", tf_prefix_, "jaco_");
@@ -249,14 +249,13 @@ void JacoArm::jointVelocityCallback(const jaco_msgs::JointVelocityConstPtr &join
         joint_velocities_.Actuator5 = joint_vel->joint5;
         joint_velocities_.Actuator6 = joint_vel->joint6;
         last_joint_vel_cmd_time_ = ros::Time().now();
-
         if (joint_vel_timer_flag_ == false) {
             joint_vel_timer_.start();
             joint_vel_timer_flag_ = true;
         }
-        ROS_INFO("Joint vel : %f, %f, %f, %f, %f, %f",
-                 joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
-                 joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
+//        ROS_INFO("Joint vel : %f, %f, %f, %f, %f, %f",
+//                 joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
+//                 joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
     }
 }
 
@@ -269,9 +268,9 @@ void JacoArm::jointVelocityTimer(const ros::TimerEvent &) {
         joint_vel_timer_flag_ = false;
     }
     else {
-        ROS_INFO("Joint vel timer (%f): %f, %f, %f, %f, %f, %f", elapsed_time_seconds,
-                 joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
-                 joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
+//        ROS_INFO("Joint vel timer (%f): %f, %f, %f, %f, %f, %f", elapsed_time_seconds,
+//                 joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
+//                 joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
         jaco_comm_.setJointVelocities(joint_velocities_);
     }
 }
