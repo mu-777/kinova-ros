@@ -65,9 +65,9 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
     finger_position_publisher_ = node_handle_.advertise<jaco_msgs::FingerPosition>("out/finger_position", 2);
 
     /* Set up Subscribers*/
-    joint_velocity_subscriber_ = node_handle_.subscribe("in/joint_velocity", 10,
+    joint_velocity_subscriber_ = node_handle_.subscribe("in/joint_velocity", 1,
                                                         &JacoArm::jointVelocityCallback, this);
-    cartesian_velocity_subscriber_ = node_handle_.subscribe("in/cartesian_velocity", 10,
+    cartesian_velocity_subscriber_ = node_handle_.subscribe("in/cartesian_velocity", 1,
                                                             &JacoArm::cartesianVelocityCallback, this);
 
     node_handle_.param<double>("status_interval_seconds", status_interval_seconds_, 0.1);
