@@ -114,6 +114,7 @@ private:
     // State tracking or utility members
     bool cartesian_vel_timer_flag_;
     bool joint_vel_timer_flag_;
+    bool joint_vel_input_flag_;
 
     AngularInfo joint_velocities_;
     CartesianInfo cartesian_velocities_;

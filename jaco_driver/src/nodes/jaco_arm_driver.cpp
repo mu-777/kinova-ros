@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 
             while (ros::ok()) {
                 jaco.publishStatus();
-//                jaco.sendCartesianVelocity();
+                jaco.sendCartesianVelocity();
                 jaco.sendJointVelocity();
                 ros::spinOnce();
                 loop_rate.sleep();

@@ -73,7 +73,7 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
     node_handle_.param<double>("status_interval_seconds", status_interval_seconds_, 0.1);
     node_handle_.param<double>("joint_angular_vel_timeout", joint_vel_timeout_seconds_, 0.25);
     node_handle_.param<double>("cartesian_vel_timeout", cartesian_vel_timeout_seconds_, 0.25);
-    node_handle_.param<double>("joint_angular_vel_timeout", joint_vel_interval_seconds_, 0.1);
+    node_handle_.param<double>("joint_angular_vel_timeout", joint_vel_interval_seconds_, 0.01);
     node_handle_.param<double>("cartesian_vel_timeout", cartesian_vel_interval_seconds_, 0.01);
 
     node_handle_.param<std::string>("tf_prefix", tf_prefix_, "jaco_");
@@ -111,6 +111,8 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
 //                                                  &JacoArm::cartesianVelocityTimer, this);
 //    cartesian_vel_timer_.stop();
 //    cartesian_vel_timer_flag_ = false;
+
+    joint_vel_input_flag_ = true;
     last_cartesian_vel_cmd_time_sec = ros::Time().now().toSec() - cartesian_vel_timeout_seconds_ - 10.0;
     last_joint_vel_cmd_time_ = ros::Time().now().toSec() - joint_vel_timeout_seconds_ - 10.0;
 
@@ -216,6 +218,7 @@ void JacoArm::cartesianVelocityCallback(const geometry_msgs::TwistStampedConstPt
         cartesian_velocities_.ThetaZ = cartesian_vel->twist.angular.z;
 
         last_cartesian_vel_cmd_time_sec = ros::Time().now().toSec();
+        joint_vel_input_flag_ = false;
 
 //        if (cartesian_vel_timer_flag_ == false) {
 //            cartesian_vel_timer_.start();
@@ -243,7 +246,7 @@ void JacoArm::cartesianVelocityTimer(const ros::TimerEvent &) {
 
 void JacoArm::sendCartesianVelocity() {
     double elapsed_time_seconds = ros::Time().now().toSec() - last_cartesian_vel_cmd_time_sec;
-    if (elapsed_time_seconds < cartesian_vel_timeout_seconds_) {
+    if (elapsed_time_seconds < cartesian_vel_timeout_seconds_ && !joint_vel_input_flag_) {
         ROS_DEBUG("Cart vel timer: %f, %f, %f, %f, %f, %f",
                   cartesian_velocities_.X, cartesian_velocities_.Y, cartesian_velocities_.Z,
                   cartesian_velocities_.ThetaX, cartesian_velocities_.ThetaY, cartesian_velocities_.ThetaZ);
@@ -261,7 +264,7 @@ void JacoArm::jointVelocityCallback(const jaco_msgs::JointVelocityConstPtr &join
         joint_velocities_.Actuator5 = joint_vel->joint5;
         joint_velocities_.Actuator6 = joint_vel->joint6;
         last_joint_vel_cmd_time_ = ros::Time().now().toSec();
-
+        joint_vel_input_flag_ = true;
 //        if (joint_vel_timer_flag_ == false) {
 //            joint_vel_timer_.start();
 //            joint_vel_timer_flag_ = true;
@@ -290,7 +293,7 @@ void JacoArm::jointVelocityTimer(const ros::TimerEvent &) {
 
 void JacoArm::sendJointVelocity() {
     double elapsed_time_seconds = ros::Time().now().toSec() - last_joint_vel_cmd_time_;
-    if (elapsed_time_seconds < joint_vel_timeout_seconds_) {
+    if (elapsed_time_seconds < joint_vel_timeout_seconds_ && joint_vel_input_flag_) {
 //        ROS_INFO("Joint vel timer: %f, %f, %f, %f, %f, %f",
 //                 joint_velocities_.Actuator1, joint_velocities_.Actuator2, joint_velocities_.Actuator3,
 //                 joint_velocities_.Actuator4, joint_velocities_.Actuator5, joint_velocities_.Actuator6);
