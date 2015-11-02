@@ -114,12 +114,12 @@ JacoComm::JacoComm(const ros::NodeHandle& node_handle,
             getQuickStatus(quick_status);
 
             robot_type_ = quick_status.RobotType;
-            if ((robot_type_ != 0) && (robot_type_ != 1) && (robot_type_ != 3))
-            {
-                ROS_ERROR("Could not get the type of the arm from the quick status, expected "
-                          "either type 0 (JACO), or type 1 (MICO), got %d", quick_status.RobotType);
-                throw JacoCommException("Could not get the type of the arm", quick_status.RobotType);
-            }
+//            if ((robot_type_ != 0) && (robot_type_ != 1) && (robot_type_ != 3))
+//            {
+//                ROS_ERROR("Could not get the type of the arm from the quick status, expected "
+//                          "either type 0 (JACO), or type 1 (MICO), got %d", quick_status.RobotType);
+//                throw JacoCommException("Could not get the type of the arm", quick_status.RobotType);
+//            }
 
             switch (robot_type_) {
                 case 0:
